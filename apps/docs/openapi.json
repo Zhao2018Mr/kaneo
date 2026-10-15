@@ -10349,7 +10349,7 @@
           "Tasks"
         ],
         "summary": "Export complete task data for spreadsheets",
-        "description": "Read-only snapshot of all project tasks, including archived and planned tasks, full descriptions, assignee names, labels, workflow columns, custom field definitions and raw values. The web client creates the XLSX file locally. Board pagination and filters do not restrict this export.",
+        "description": "Read-only snapshot of all project tasks, including archived and planned tasks, full descriptions, assignee names, labels, workflow columns, custom field definitions and raw values. The web client creates the XLSX file locally. Board pagination and filters do not restrict this export. Optional dateField/from/until filters select an inclusive start and exclusive end instant; all three query parameters must be supplied together.",
         "parameters": [
           {
             "schema": {
@@ -10358,6 +10358,42 @@
             "required": true,
             "name": "projectId",
             "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "createdAt",
+                "updatedAt",
+                "startDate",
+                "dueDate"
+              ]
+            },
+            "required": false,
+            "name": "dateField",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Inclusive start instant, with timezone."
+            },
+            "required": false,
+            "description": "Inclusive start instant, with timezone.",
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Exclusive end instant, with timezone. Use the midnight after the last selected day."
+            },
+            "required": false,
+            "description": "Exclusive end instant, with timezone. Use the midnight after the last selected day.",
+            "name": "until",
+            "in": "query"
           }
         ],
         "responses": {
@@ -10396,6 +10432,35 @@
                         "slug",
                         "description",
                         "exportedAt"
+                      ]
+                    },
+                    "range": {
+                      "type": "object",
+                      "properties": {
+                        "dateField": {
+                          "type": "string",
+                          "enum": [
+                            "createdAt",
+                            "updatedAt",
+                            "startDate",
+                            "dueDate"
+                          ]
+                        },
+                        "from": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Inclusive start instant, with timezone."
+                        },
+                        "until": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Exclusive end instant, with timezone. Use the midnight after the last selected day."
+                        }
+                      },
+                      "required": [
+                        "dateField",
+                        "from",
+                        "until"
                       ]
                     },
                     "columns": {
@@ -10534,6 +10599,16 @@
                     "fields",
                     "tasks"
                   ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or incomplete date range",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
                 }
               }
             }

@@ -7,6 +7,7 @@ import ProjectCrumbSelect from "@/components/common/header/project-crumb-select"
 import WorkspaceCrumbSelect from "@/components/common/header/workspace-crumb-select";
 import Layout from "@/components/common/layout";
 import { ProjectScopeToggle } from "@/components/project/views/project-scope-toggle";
+import { ExportTasksExcelButton } from "@/components/project/tasks-import-export/export-tasks-excel-button";
 import {
   PROJECT_ROUTE_PATHS,
   type ProjectRoute,
@@ -140,6 +141,16 @@ export default function ProjectLayout({
               onAddProject={() => setIsCreateProjectModalOpen(true)}
             />
           </div>
+          {project && !unavailableReason && (
+            <div className="ml-auto shrink-0">
+              <ExportTasksExcelButton
+                key={projectId}
+                projectId={projectId}
+                projectSlug={project.slug}
+                compact
+              />
+            </div>
+          )}
         </div>
       </Layout.Header>
 

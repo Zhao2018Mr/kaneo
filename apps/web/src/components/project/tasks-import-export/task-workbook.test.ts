@@ -103,6 +103,25 @@ describe("task workbook", () => {
     expect(workbook.worksheets[1].rowCount).toBeGreaterThan(1);
   });
 
+  it("records the chosen date type and inclusive calendar days in project configuration", () => {
+    const source = fixture();
+    source.range = {
+      dateField: "updatedAt",
+      from: new Date(2026, 9, 15).toISOString(),
+      until: new Date(2026, 9, 17).toISOString(),
+    };
+    const workbook = createTaskWorkbook(source, t);
+    const config = workbook.worksheets[1];
+    const metadata = new Map<string, unknown>();
+    config.eachRow((row) =>
+      metadata.set(String(row.getCell(1).value), row.getCell(2).value),
+    );
+    expect(metadata.get("scope")).toBe("dateRange");
+    expect(metadata.get("dateField")).toBe("updatedAt");
+    expect(metadata.get("fromDay")).toBe("2026-10-15");
+    expect(metadata.get("toDay")).toBe("2026-10-16");
+  });
+
   it("preserves complete long descriptions in ordered text chunks", async () => {
     const source = fixture();
     const original = "😀说明".repeat(20_000);

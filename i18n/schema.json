@@ -10238,6 +10238,33 @@
 								}
 							},
 							"required": ["no-priority", "low", "medium", "high", "urgent"]
+						},
+						"dialogDescription": {
+							"type": "string"
+						},
+						"dateRange": {
+							"type": "string"
+						},
+						"dateField": {
+							"type": "string"
+						},
+						"fromDay": {
+							"type": "string"
+						},
+						"toDay": {
+							"type": "string"
+						},
+						"dateHint": {
+							"type": "string"
+						},
+						"invalidRange": {
+							"type": "string"
+						},
+						"download": {
+							"type": "string"
+						},
+						"allTasksLabel": {
+							"type": "string"
 						}
 					},
 					"required": [
@@ -10283,7 +10310,16 @@
 						"tooLarge",
 						"planned",
 						"archived",
-						"priorities"
+						"priorities",
+						"dialogDescription",
+						"dateRange",
+						"dateField",
+						"fromDay",
+						"toDay",
+						"dateHint",
+						"invalidRange",
+						"download",
+						"allTasksLabel"
 					]
 				}
 			},

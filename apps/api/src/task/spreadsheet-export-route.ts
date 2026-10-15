@@ -15,6 +15,10 @@ import { workspaceAccess } from "../utils/workspace-access-middleware";
 import exportSpreadsheetData from "./controllers/export-spreadsheet-data";
 import { taskSchema } from "./response";
 import { projectIdParam } from "./schema";
+import {
+  spreadsheetExportQuery,
+  spreadsheetExportRangeSchema,
+} from "./spreadsheet-export-schema";
 
 const route = createRoute({
   method: "get",
@@ -23,12 +27,12 @@ const route = createRoute({
   tags: ["Tasks"],
   summary: "Export complete task data for spreadsheets",
   description:
-    "Read-only snapshot of all project tasks, including archived and planned tasks, full descriptions, assignee names, labels, workflow columns, custom field definitions and raw values. The web client creates the XLSX file locally. Board pagination and filters do not restrict this export.",
+    "Read-only snapshot of all project tasks, including archived and planned tasks, full descriptions, assignee names, labels, workflow columns, custom field definitions and raw values. The web client creates the XLSX file locally. Board pagination and filters do not restrict this export. Optional dateField/from/until filters select an inclusive start and exclusive end instant; all three query parameters must be supplied together.",
   middleware: [
     workspaceAccess.fromProject("projectId"),
     requireWorkspacePermission({ project: ["read"], task: ["read"] }),
   ] as const,
-  request: { params: projectIdParam },
+  request: { params: projectIdParam, query: spreadsheetExportQuery },
   responses: {
     200: jsonResponse(
       "Spreadsheet source data",
@@ -40,6 +44,7 @@ const route = createRoute({
           description: z.string().nullable(),
           exportedAt: z.string(),
         }),
+        range: spreadsheetExportRangeSchema.optional(),
         columns: columnListSchema,
         fields: customFieldDefinitionListSchema,
         tasks: z.array(
@@ -52,6 +57,7 @@ const route = createRoute({
         ),
       }),
     ),
+    400: errorResponse("Invalid or incomplete date range"),
     401: errorResponse("Unauthorized"),
     403: errorResponse("Missing read permission or project access"),
     404: errorResponse("Project not found"),
@@ -61,12 +67,15 @@ const route = createRoute({
 
 export default apiRouter<BaseVariables & { workspaceId: string }>().openapi(
   route,
-  async (c) =>
-    c.json(
+  async (c) => {
+    const { dateField, from, until } = c.req.valid("query");
+    return c.json(
       await exportSpreadsheetData(
         c.req.valid("param").projectId,
         c.get("workspaceId"),
+        dateField && from && until ? { dateField, from, until } : undefined,
       ),
       200,
-    ),
+    );
+  },
 );

@@ -9,9 +9,17 @@ export type SpreadsheetExportData = InferResponseType<
 >;
 
 /** Reads all task data and custom fields the caller may export from a project. */
-export default async function exportSpreadsheetData(projectId: string) {
+export type SpreadsheetExportRange = NonNullable<
+  SpreadsheetExportData["range"]
+>;
+
+export default async function exportSpreadsheetData(
+  projectId: string,
+  range?: SpreadsheetExportRange,
+) {
   const response = await client.task.export[":projectId"].spreadsheet.$get({
     param: { projectId },
+    query: range ?? {},
   });
   if (!response.ok) throw await HttpError.fromResponse(response);
   return response.json();

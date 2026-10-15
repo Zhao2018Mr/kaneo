@@ -100,6 +100,90 @@ describe("API integration: spreadsheet task export", () => {
     expect(Object.keys(await old.json()).sort()).toEqual(["project", "tasks"]);
   });
 
+  it.each(["createdAt", "updatedAt", "startDate", "dueDate"] as const)(
+    "filters by %s with inclusive start and exclusive next-day end",
+    async (dateField) => {
+      const owner = await createWorkspaceMember({ role: "owner" });
+      const { project } = await createProjectFixture({
+        workspaceId: owner.workspace.id,
+      });
+      const from = "2026-10-14T16:00:00.000Z",
+        until = "2026-10-15T16:00:00.000Z";
+      await db.insert(schema.taskTable).values([
+        {
+          projectId: project.id,
+          title: "before",
+          number: 1,
+          [dateField]: new Date(Date.parse(from) - 1),
+        },
+        {
+          projectId: project.id,
+          title: "first",
+          number: 2,
+          [dateField]: new Date(from),
+        },
+        {
+          projectId: project.id,
+          title: "last",
+          number: 3,
+          [dateField]: new Date(Date.parse(until) - 1),
+        },
+        {
+          projectId: project.id,
+          title: "after",
+          number: 4,
+          [dateField]: new Date(until),
+        },
+        ...(["startDate", "dueDate"].includes(dateField)
+          ? [
+              {
+                projectId: project.id,
+                number: 5,
+                title: "no date",
+                [dateField]: null,
+              },
+            ]
+          : []),
+      ]);
+      mockAuthenticatedSession(owner.user);
+      const { app } = createApp();
+      const range = { dateField, from, until };
+      const response = await app.request(
+        `/api/task/export/${project.id}/spreadsheet?${new URLSearchParams(range)}`,
+      );
+      expect(response.status).toBe(200);
+      const data = await response.json();
+      expect(data.tasks.map((task) => task.title).sort()).toEqual([
+        "first",
+        "last",
+      ]);
+      expect(data.range).toEqual(range);
+      const emptyRange = {
+        dateField,
+        from: "2100-01-01T00:00:00Z",
+        until: "2100-01-02T00:00:00Z",
+      };
+      const empty = await app.request(
+        `/api/task/export/${project.id}/spreadsheet?${new URLSearchParams(emptyRange)}`,
+      );
+      expect(empty.status).toBe(200);
+      expect((await empty.json()).tasks).toEqual([]);
+      expect(
+        (
+          await app.request(
+            `/api/task/export/${project.id}/spreadsheet?dateField=createdAt`,
+          )
+        ).status,
+      ).toBe(400);
+      const all = await (
+        await app.request(`/api/task/export/${project.id}/spreadsheet`)
+      ).json();
+      expect(all.tasks).toHaveLength(
+        ["startDate", "dueDate"].includes(dateField) ? 5 : 4,
+      );
+    },
+  );
+
   it("denies anonymous, cross-workspace and restricted-project requests", async () => {
     const owner = await createWorkspaceMember({ role: "owner" });
     const { project } = await createProjectFixture({

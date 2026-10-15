@@ -1,5 +1,5 @@
 // Reads a consistent export snapshot, including custom values omitted by JSON backups.
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, eq, gte, lt } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import {
   columnTable,
@@ -11,11 +11,13 @@ import {
   userTable,
 } from "../../database/schema";
 import { boundedTaskRead } from "../bounded-read";
+import type { SpreadsheetExportRange } from "../spreadsheet-export-schema";
 
-/** Exports every task in the authorized project, including planned and archived tasks. */
+/** Exports every task in the authorized project, including planned and archived tasks, optionally within one task date range. */
 export default async function exportSpreadsheetData(
   projectId: string,
   workspaceId: string,
+  range?: SpreadsheetExportRange,
 ) {
   return boundedTaskRead(async (tx) => {
     const [project] = await tx
@@ -49,6 +51,16 @@ export default async function exportSpreadsheetData(
         asc(customFieldDefinitionTable.position),
         asc(customFieldDefinitionTable.id),
       );
+    // The same predicate scopes task rows, labels and custom values in this snapshot.
+    const taskScope = and(
+      eq(taskTable.projectId, projectId),
+      range
+        ? and(
+            gte(taskTable[range.dateField], new Date(range.from)),
+            lt(taskTable[range.dateField], new Date(range.until)),
+          )
+        : undefined,
+    );
     const tasks = await tx
       .select({
         id: taskTable.id,
@@ -68,7 +80,7 @@ export default async function exportSpreadsheetData(
       })
       .from(taskTable)
       .leftJoin(userTable, eq(taskTable.userId, userTable.id))
-      .where(eq(taskTable.projectId, projectId))
+      .where(taskScope)
       .orderBy(
         asc(taskTable.position),
         asc(taskTable.number),
@@ -89,16 +101,13 @@ export default async function exportSpreadsheetData(
         eq(customFieldValueTable.fieldId, customFieldDefinitionTable.id),
       )
       .where(
-        and(
-          eq(taskTable.projectId, projectId),
-          eq(customFieldDefinitionTable.projectId, projectId),
-        ),
+        and(taskScope, eq(customFieldDefinitionTable.projectId, projectId)),
       );
     const labels = await tx
       .select({ taskId: labelTable.taskId, name: labelTable.name })
       .from(labelTable)
       .innerJoin(taskTable, eq(labelTable.taskId, taskTable.id))
-      .where(eq(taskTable.projectId, projectId))
+      .where(taskScope)
       .orderBy(asc(labelTable.name));
     const valuesByTask = new Map<string, Record<string, string | null>>();
     for (const value of values) {
@@ -115,6 +124,7 @@ export default async function exportSpreadsheetData(
     }
     return {
       project: { ...project, exportedAt: new Date().toISOString() },
+      ...(range ? { range } : {}),
       columns,
       fields,
       tasks: tasks.map((task) => ({

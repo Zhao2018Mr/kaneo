@@ -174,7 +174,18 @@ export function createTaskWorkbook(
     t("timezone"),
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   ]);
-  config.addRow([t("scope"), t("allTasks")]);
+  config.addRow([t("scope"), data.range ? t("dateRange") : t("allTasks")]);
+  if (data.range) {
+    config.addRow([t("dateField"), t(data.range.dateField)]);
+    config.addRow([
+      t("fromDay"),
+      format(new Date(data.range.from), "yyyy-MM-dd"),
+    ]);
+    config.addRow([
+      t("toDay"),
+      format(new Date(Date.parse(data.range.until) - 1), "yyyy-MM-dd"),
+    ]);
+  }
   config.addRow([t("taskCount"), data.tasks.length]);
   config.addRow([]);
   styleHeader(
