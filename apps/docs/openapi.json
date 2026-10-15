@@ -8806,6 +8806,134 @@
         }
       }
     },
+    "/project/{id}/copy-configuration": {
+      "post": {
+        "operationId": "copyProjectConfiguration",
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Copy workflow statuses and custom fields from another project",
+        "description": "Copy settings from an accessible, active project in the same workspace. Workflow replacement requires an empty target without automation rules. Identical fields are skipped; conflicting same-name fields reject the whole transaction. New fields receive their configured defaults. Tasks, members, integrations and automation rules are not copied.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sourceProjectId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "workflow": {
+                    "type": "boolean"
+                  },
+                  "customFields": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "sourceProjectId",
+                  "workflow",
+                  "customFields"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuration copied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "columnsCopied": {
+                      "type": "integer"
+                    },
+                    "fieldsCopied": {
+                      "type": "integer"
+                    },
+                    "fieldsSkipped": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "columnsCopied",
+                    "fieldsCopied",
+                    "fieldsSkipped"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid selection or same project",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Missing permission or project access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Projects not found in the same workspace",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Archived project, occupied workflow, automation rules or conflicting fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ApiKeyRateLimited"
+          }
+        }
+      }
+    },
     "/project/{id}/move": {
       "put": {
         "operationId": "moveProject",
