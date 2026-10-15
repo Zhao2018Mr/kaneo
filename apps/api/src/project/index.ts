@@ -37,6 +37,7 @@ import moveProjectCtrl from "./controllers/move-project";
 import reorderProjectsCtrl from "./controllers/reorder-projects";
 import unarchiveProjectCtrl from "./controllers/unarchive-project";
 import updateProjectCtrl from "./controllers/update-project";
+import copyConfiguration from "./copy-configuration-route";
 import {
   movedProjectSchema,
   projectBackgroundFinalizeSchema,
@@ -393,6 +394,7 @@ const deleteProjectBackgroundRoute = createRoute({
 });
 
 const project = apiRouter<BaseVariables & { workspaceId: string }>()
+  .route("/", copyConfiguration)
   .openapi(moveProjectRoute, async (c) => {
     const { id } = c.req.valid("param");
     const { workspaceId: targetWorkspaceId } = c.req.valid("json");
