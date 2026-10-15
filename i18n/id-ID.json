@@ -2337,7 +2337,7 @@
 		},
 		"excelExport": {
 			"title": "Export Excel",
-			"description": "Download every project task, including archived tasks, with custom fields and hours. Includes project configuration.",
+			"description": "Export tasks, custom fields and hours for all dates or a selected period, with project configuration.",
 			"action": "Export Excel",
 			"pending": "Creating Excel…",
 			"success": "Excel file downloaded",
@@ -2384,7 +2384,16 @@
 				"medium": "Medium",
 				"high": "High",
 				"urgent": "Urgent"
-			}
+			},
+			"dialogDescription": "Choose all project tasks or a date range. Board filters do not restrict this export.",
+			"dateRange": "Date range",
+			"dateField": "Task date",
+			"fromDay": "From date",
+			"toDay": "To date",
+			"dateHint": "Uses {{timezone}}. Both selected days are included. Tasks without the selected date are excluded from the range.",
+			"invalidRange": "Choose valid dates with the start on or before the end.",
+			"download": "Download Excel",
+			"allTasksLabel": "All tasks"
 		}
 	},
 	"navigation": {

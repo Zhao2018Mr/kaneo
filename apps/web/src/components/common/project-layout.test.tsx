@@ -6,7 +6,7 @@ import ProjectLayout from "./project-layout";
 
 const project = vi.hoisted(() => ({
   current: { data: undefined, error: null } as {
-    data: { name: string } | undefined;
+    data: { name: string; slug: string } | undefined;
     error: unknown;
   },
 }));
@@ -24,7 +24,8 @@ vi.mock("@tanstack/react-router", () => ({
 vi.mock("@/components/project/views/use-project-view-shortcuts", () => ({
   useProjectViewShortcuts: () => undefined,
 }));
-vi.mock("react-i18next", () => ({
+vi.mock("react-i18next", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("react-i18next")>()),
   useTranslation: () => ({ t: (key: string) => key }),
 }));
 vi.mock("@/hooks/queries/project/use-get-project", () => ({
@@ -89,6 +90,9 @@ describe("ProjectLayout access states", () => {
     ).toBeVisible();
     expect(screen.queryByText("Board content")).toBeNull();
     expect(screen.queryByText("Toolbar action")).toBeNull();
+    expect(
+      screen.queryByRole("button", { name: "settings:excelExport.action" }),
+    ).toBeNull();
   });
 
   it("shows a not-found state on 404", () => {
@@ -103,16 +107,19 @@ describe("ProjectLayout access states", () => {
   });
 
   it("renders the project when it loads", () => {
-    project.current = { data: { name: "Alpha" }, error: null };
+    project.current = { data: { name: "Alpha", slug: "ALPHA" }, error: null };
     renderLayout();
 
     expect(screen.getByText("Board content")).toBeVisible();
     expect(screen.getByText("Toolbar action")).toBeVisible();
     expect(screen.getByText("5 tasks")).toBeVisible();
+    expect(
+      screen.getByRole("button", { name: "settings:excelExport.action" }),
+    ).toBeVisible();
   });
 
   it("marks tasks as current and links the backlog", () => {
-    project.current = { data: { name: "Alpha" }, error: null };
+    project.current = { data: { name: "Alpha", slug: "ALPHA" }, error: null };
     renderLayout();
 
     expect(

@@ -2337,7 +2337,7 @@
 		},
 		"excelExport": {
 			"title": "导出 Excel",
-			"description": "导出当前项目全部任务（含计划、归档任务）、自定义字段和工时，并附项目配置。",
+			"description": "导出任务、自定义字段和工时，可选择全部或按日期筛选，并附项目配置。",
 			"action": "导出 Excel",
 			"pending": "正在生成 Excel…",
 			"success": "Excel 文件已下载",
@@ -2384,7 +2384,16 @@
 				"medium": "中",
 				"high": "高",
 				"urgent": "紧急"
-			}
+			},
+			"dialogDescription": "选择全部项目任务或指定日期范围，不受看板当前筛选影响。",
+			"dateRange": "指定时间范围",
+			"dateField": "筛选日期类型",
+			"fromDay": "开始日期",
+			"toDay": "结束日期",
+			"dateHint": "按 {{timezone}} 时区，包含开始和结束当天；未填写所选日期的任务不会进入范围。",
+			"invalidRange": "请选择有效日期，开始日期不能晚于结束日期。",
+			"download": "下载 Excel",
+			"allTasksLabel": "全部任务"
 		}
 	},
 	"navigation": {
