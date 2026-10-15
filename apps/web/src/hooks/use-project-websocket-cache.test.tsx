@@ -486,6 +486,14 @@ it("refreshes workspace label filters when a remote project event changes labels
     expect(mocks.client.invalidateQueries).toHaveBeenCalledWith({
       queryKey: ["labels"],
     });
+    for (const key of ["columns", "custom-fields"]) {
+      expect(mocks.client.invalidateQueries).toHaveBeenCalledWith({
+        queryKey: [key, "p"],
+      });
+    }
+    expect(mocks.client.invalidateQueries).toHaveBeenCalledWith({
+      queryKey: ["custom-field-values"],
+    });
     expect(mocks.client.invalidateQueries).not.toHaveBeenCalledWith({
       queryKey: ["external-links"],
     });

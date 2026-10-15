@@ -6697,6 +6697,86 @@
 						},
 						"toastMoveError": {
 							"type": "string"
+						},
+						"copyConfiguration": {
+							"type": "object",
+							"additionalProperties": false,
+							"properties": {
+								"section": {
+									"type": "string"
+								},
+								"title": {
+									"type": "string"
+								},
+								"description": {
+									"type": "string"
+								},
+								"action": {
+									"type": "string"
+								},
+								"dialogDescription": {
+									"type": "string"
+								},
+								"confirm": {
+									"type": "string"
+								},
+								"pending": {
+									"type": "string"
+								},
+								"template": {
+									"type": "string"
+								},
+								"placeholder": {
+									"type": "string"
+								},
+								"workflow": {
+									"type": "string"
+								},
+								"fields": {
+									"type": "string"
+								},
+								"hasTasks": {
+									"type": "string"
+								},
+								"loadError": {
+									"type": "string"
+								},
+								"noTemplates": {
+									"type": "string"
+								},
+								"none": {
+									"type": "string"
+								},
+								"loading": {
+									"type": "string"
+								},
+								"success": {
+									"type": "string"
+								},
+								"error": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"section",
+								"title",
+								"description",
+								"action",
+								"dialogDescription",
+								"confirm",
+								"pending",
+								"template",
+								"placeholder",
+								"workflow",
+								"fields",
+								"hasTasks",
+								"loadError",
+								"noTemplates",
+								"none",
+								"loading",
+								"success",
+								"error"
+							]
 						}
 					},
 					"required": [
@@ -6751,7 +6831,8 @@
 						"moveModalConfirm",
 						"toastMoved",
 						"toastMovedWithUnassigned",
-						"toastMoveError"
+						"toastMoveError",
+						"copyConfiguration"
 					]
 				},
 				"projectIntegrations": {
