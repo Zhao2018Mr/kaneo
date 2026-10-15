@@ -972,6 +972,113 @@
           "createdAt"
         ]
       },
+      "Column": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string",
+            "description": "Stable identifier derived from the name; tasks store this as their status."
+          },
+          "position": {
+            "type": "number",
+            "description": "Board order, ascending. Columns are always returned sorted by it."
+          },
+          "icon": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "color": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "isFinal": {
+            "type": "boolean",
+            "description": "Marks the column as a done state, which stops overdue reminders for tasks in it."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "name",
+          "slug",
+          "position",
+          "icon",
+          "color",
+          "isFinal",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "CustomFieldDefinition": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "defaultValue": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "options": {},
+          "position": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "name",
+          "type",
+          "required",
+          "defaultValue",
+          "position",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
       "TaskDescriptionMatches": {
         "type": "object",
         "properties": {
@@ -1530,64 +1637,6 @@
           "successful",
           "failed",
           "tasks"
-        ]
-      },
-      "Column": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "projectId": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string",
-            "description": "Stable identifier derived from the name; tasks store this as their status."
-          },
-          "position": {
-            "type": "number",
-            "description": "Board order, ascending. Columns are always returned sorted by it."
-          },
-          "icon": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "color": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "isFinal": {
-            "type": "boolean",
-            "description": "Marks the column as a done state, which stops overdue reminders for tasks in it."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "id",
-          "projectId",
-          "name",
-          "slug",
-          "position",
-          "icon",
-          "color",
-          "isFinal",
-          "createdAt",
-          "updatedAt"
         ]
       },
       "WorkspaceActivity": {
@@ -4550,55 +4599,6 @@
           "removeMembers"
         ],
         "description": "Whether the caller's roles (and API key scope, if any) allow each named action in the workspace. Mirrors the checks the API enforces."
-      },
-      "CustomFieldDefinition": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "projectId": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          },
-          "required": {
-            "type": "boolean"
-          },
-          "defaultValue": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "options": {},
-          "position": {
-            "type": "number"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "id",
-          "projectId",
-          "name",
-          "type",
-          "required",
-          "defaultValue",
-          "position",
-          "createdAt",
-          "updatedAt"
-        ]
       },
       "CustomFieldValue": {
         "type": "object",
@@ -10338,6 +10338,248 @@
           },
           "429": {
             "$ref": "#/components/responses/ApiKeyRateLimited"
+          }
+        }
+      }
+    },
+    "/task/export/{projectId}/spreadsheet": {
+      "get": {
+        "operationId": "exportTaskSpreadsheetData",
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Export complete task data for spreadsheets",
+        "description": "Read-only snapshot of all project tasks, including archived and planned tasks, full descriptions, assignee names, labels, workflow columns, custom field definitions and raw values. The web client creates the XLSX file locally. Board pagination and filters do not restrict this export.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "projectId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Spreadsheet source data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "project": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "exportedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "slug",
+                        "description",
+                        "exportedAt"
+                      ]
+                    },
+                    "columns": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Column"
+                      }
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CustomFieldDefinition"
+                      }
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "projectId": {
+                            "type": "string"
+                          },
+                          "position": {
+                            "type": [
+                              "number",
+                              "null"
+                            ],
+                            "description": "Order within its column, ascending."
+                          },
+                          "number": {
+                            "type": [
+                              "number",
+                              "null"
+                            ],
+                            "description": "Per-project counter shown as {projectSlug}-{number}."
+                          },
+                          "userId": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "description": "The assignee, if any."
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "descriptionDeferred": {
+                            "type": "boolean",
+                            "description": "True when the list omits a large description; load the task detail or description pages to read it. Do not replace stored text with this null summary."
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "The slug of the column the task sits in."
+                          },
+                          "priority": {
+                            "type": "string",
+                            "description": "One of: no-priority, low, medium, high, urgent."
+                          },
+                          "startDate": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "format": "date-time"
+                          },
+                          "dueDate": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "format": "date-time"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "assigneeName": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "labels": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "customFieldValues": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "projectId",
+                          "position",
+                          "number",
+                          "userId",
+                          "title",
+                          "description",
+                          "status",
+                          "priority",
+                          "startDate",
+                          "dueDate",
+                          "createdAt",
+                          "updatedAt",
+                          "assigneeName",
+                          "labels",
+                          "customFieldValues"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "project",
+                    "columns",
+                    "fields",
+                    "tasks"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Missing read permission or project access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/ApiKeyRateLimited"
+          },
+          "503": {
+            "description": "Export query timed out",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
           }
         }
       }

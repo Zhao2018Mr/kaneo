@@ -40,6 +40,7 @@ import createTask from "./controllers/create-task";
 import deleteTask from "./controllers/delete-task";
 import duplicateTask from "./controllers/duplicate-task";
 import exportTasks from "./controllers/export-tasks";
+import spreadsheetExport from "./spreadsheet-export-route";
 import getAssignedTasks from "./controllers/get-assigned-tasks";
 import getTaskByTicketId from "./controllers/get-task-by-ticket-id";
 import getTask from "./controllers/get-task";
@@ -785,6 +786,7 @@ const descriptionMatchesRoute = createRoute({
 });
 
 const task = apiRouter<BaseVariables & { workspaceId: string }>()
+  .route("/", spreadsheetExport)
   .openapi(descriptionPageRoute, async (c) =>
     c.json(
       await getDescriptionPage(c.req.valid("param").id, c.req.valid("query")),

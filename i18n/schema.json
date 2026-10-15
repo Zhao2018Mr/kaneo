@@ -10086,6 +10086,205 @@
 						"expiredCallout",
 						"openFailed"
 					]
+				},
+				"excelExport": {
+					"type": "object",
+					"additionalProperties": false,
+					"properties": {
+						"title": {
+							"type": "string"
+						},
+						"description": {
+							"type": "string"
+						},
+						"action": {
+							"type": "string"
+						},
+						"pending": {
+							"type": "string"
+						},
+						"success": {
+							"type": "string"
+						},
+						"error": {
+							"type": "string"
+						},
+						"taskSheet": {
+							"type": "string"
+						},
+						"configSheet": {
+							"type": "string"
+						},
+						"longTextSheet": {
+							"type": "string"
+						},
+						"ticket": {
+							"type": "string"
+						},
+						"id": {
+							"type": "string"
+						},
+						"titleColumn": {
+							"type": "string"
+						},
+						"descriptionColumn": {
+							"type": "string"
+						},
+						"status": {
+							"type": "string"
+						},
+						"priority": {
+							"type": "string"
+						},
+						"assignee": {
+							"type": "string"
+						},
+						"labels": {
+							"type": "string"
+						},
+						"startDate": {
+							"type": "string"
+						},
+						"dueDate": {
+							"type": "string"
+						},
+						"createdAt": {
+							"type": "string"
+						},
+						"updatedAt": {
+							"type": "string"
+						},
+						"project": {
+							"type": "string"
+						},
+						"projectDescription": {
+							"type": "string"
+						},
+						"exportedAt": {
+							"type": "string"
+						},
+						"timezone": {
+							"type": "string"
+						},
+						"scope": {
+							"type": "string"
+						},
+						"allTasks": {
+							"type": "string"
+						},
+						"taskCount": {
+							"type": "string"
+						},
+						"order": {
+							"type": "string"
+						},
+						"statusKey": {
+							"type": "string"
+						},
+						"final": {
+							"type": "string"
+						},
+						"fieldName": {
+							"type": "string"
+						},
+						"fieldType": {
+							"type": "string"
+						},
+						"required": {
+							"type": "string"
+						},
+						"defaultValue": {
+							"type": "string"
+						},
+						"options": {
+							"type": "string"
+						},
+						"part": {
+							"type": "string"
+						},
+						"content": {
+							"type": "string"
+						},
+						"longTextNotice": {
+							"type": "string"
+						},
+						"tooLarge": {
+							"type": "string"
+						},
+						"planned": {
+							"type": "string"
+						},
+						"archived": {
+							"type": "string"
+						},
+						"priorities": {
+							"type": "object",
+							"additionalProperties": false,
+							"properties": {
+								"no-priority": {
+									"type": "string"
+								},
+								"low": {
+									"type": "string"
+								},
+								"medium": {
+									"type": "string"
+								},
+								"high": {
+									"type": "string"
+								},
+								"urgent": {
+									"type": "string"
+								}
+							},
+							"required": ["no-priority", "low", "medium", "high", "urgent"]
+						}
+					},
+					"required": [
+						"title",
+						"description",
+						"action",
+						"pending",
+						"success",
+						"error",
+						"taskSheet",
+						"configSheet",
+						"longTextSheet",
+						"ticket",
+						"id",
+						"titleColumn",
+						"descriptionColumn",
+						"status",
+						"priority",
+						"assignee",
+						"labels",
+						"startDate",
+						"dueDate",
+						"createdAt",
+						"updatedAt",
+						"project",
+						"projectDescription",
+						"exportedAt",
+						"timezone",
+						"scope",
+						"allTasks",
+						"taskCount",
+						"order",
+						"statusKey",
+						"final",
+						"fieldName",
+						"fieldType",
+						"required",
+						"defaultValue",
+						"options",
+						"part",
+						"content",
+						"longTextNotice",
+						"tooLarge",
+						"planned",
+						"archived",
+						"priorities"
+					]
 				}
 			},
 			"required": [
@@ -10133,7 +10332,8 @@
 				"securityPage",
 				"calendarFeeds",
 				"invitationEmailFailed",
-				"billing"
+				"billing",
+				"excelExport"
 			]
 		},
 		"navigation": {

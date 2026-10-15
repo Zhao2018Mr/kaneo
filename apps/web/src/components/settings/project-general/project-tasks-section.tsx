@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { ExportTasksRow } from "@/components/project/tasks-import-export/export-tasks-row";
+import { ExportTasksExcelRow } from "@/components/project/tasks-import-export/export-tasks-excel-row";
 import { ImportTasksRow } from "@/components/project/tasks-import-export/import-tasks-row";
 import { MoveProjectRow } from "@/components/settings/project-general/move-project-row";
 import { useProjectMoveTargets } from "@/components/settings/project-general/use-project-move-targets";
@@ -28,6 +29,11 @@ export function ProjectTasksSection({
     <SettingsSection title={t("settings:projectGeneral.tasksTitle")}>
       <SettingsCard>
         <ExportTasksRow project={project} />
+        <ExportTasksExcelRow
+          key={project.id}
+          projectId={project.id}
+          projectSlug={project.slug}
+        />
         <ImportTasksRow project={project} />
         {canShowMove ? (
           <MoveProjectRow
