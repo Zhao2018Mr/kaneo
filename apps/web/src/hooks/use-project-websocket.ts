@@ -87,6 +87,13 @@ export function useProjectWebSocket(projectId: string) {
         });
       }
       if (message.type === "PROJECT_UPDATED") {
+        queryClient.invalidateQueries({
+          queryKey: ["custom-fields", projectId],
+        });
+        queryClient.invalidateQueries({ queryKey: ["columns", projectId] });
+        queryClient.invalidateQueries({
+          queryKey: ["custom-field-values"],
+        });
         queryClient.invalidateQueries({ queryKey: ["projects"] });
         queryClient.invalidateQueries({ queryKey: ["labels"] });
         if (message.linksChanged)

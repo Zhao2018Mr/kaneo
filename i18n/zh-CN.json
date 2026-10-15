@@ -1149,7 +1149,27 @@
 			"moveDialogTitle": "移动到其他工作区？",
 			"moveTargetLabel": "工作区",
 			"moving": "正在移动...",
-			"tasksTitle": "任务"
+			"tasksTitle": "任务",
+			"copyConfiguration": {
+				"section": "项目配置",
+				"title": "从现有项目复制配置",
+				"description": "复用其他项目的工作流状态和自定义字段。",
+				"action": "复制配置",
+				"dialogDescription": "工作流将替换空项目的现有状态，目标不能包含自动化规则。同名且配置一致的字段会跳过，配置冲突则中止。新字段按默认值初始化；任务和已记录工时不会复制。",
+				"confirm": "复制所选配置",
+				"pending": "正在复制…",
+				"template": "模板项目",
+				"placeholder": "选择一个项目",
+				"workflow": "工作流状态",
+				"fields": "自定义字段",
+				"hasTasks": "当前项目已有任务，只能复制字段，以保留现有任务进度。",
+				"loadError": "无法加载项目配置，请关闭弹窗后重试。",
+				"noTemplates": "请先创建另一个项目作为模板。",
+				"none": "无",
+				"loading": "正在加载模板…",
+				"success": "已复制 {{columns}} 个状态、{{fields}} 个字段，跳过 {{skipped}} 个相同字段。",
+				"error": "复制配置失败。"
+			}
 		},
 		"projectIntegrations": {
 			"pageTitle": "集成",

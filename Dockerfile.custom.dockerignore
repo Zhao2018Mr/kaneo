@@ -1,0 +1,9 @@
+# A packaging context needs only compiled, non-secret assets.
+**
+!apps/
+!apps/api/
+!apps/api/dist/
+!apps/api/dist/index.js
+!apps/web/
+!apps/web/dist/
+!apps/web/dist/**

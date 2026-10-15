@@ -1158,7 +1158,27 @@
 			"moveDialogTitle": "दूसरे वर्कस्पेस में ले जाएँ?",
 			"moveTargetLabel": "वर्कस्पेस",
 			"moving": "ले जाया जा रहा है...",
-			"tasksTitle": "कार्य"
+			"tasksTitle": "कार्य",
+			"copyConfiguration": {
+				"section": "Project configuration",
+				"title": "Copy configuration from a project",
+				"description": "Reuse workflow statuses and custom fields from another project.",
+				"action": "Copy configuration",
+				"dialogDescription": "Workflow copying replaces statuses only in an empty project without automation rules. Identical fields are skipped; different same-name fields stop the copy. New fields receive their defaults. Tasks and recorded hours are not copied.",
+				"confirm": "Copy selected configuration",
+				"pending": "Copying…",
+				"template": "Template project",
+				"placeholder": "Select a project",
+				"workflow": "Workflow statuses",
+				"fields": "Custom fields",
+				"hasTasks": "This project has tasks. Only custom fields can be copied; current progress is preserved.",
+				"loadError": "Could not load project configuration. Close this dialog and try again.",
+				"noTemplates": "Create another project to use as a template.",
+				"none": "None",
+				"loading": "Loading template…",
+				"success": "Copied {{columns}} statuses and {{fields}} fields; skipped {{skipped}} identical fields.",
+				"error": "Could not copy configuration."
+			}
 		},
 		"projectIntegrations": {
 			"pageTitle": "एकीकरण",

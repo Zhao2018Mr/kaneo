@@ -6,6 +6,9 @@ import { AutosaveNote } from "@/components/settings/autosave-note";
 import { ProjectDangerZone } from "@/components/settings/project-general/project-danger-zone";
 import { ProjectDetailsSection } from "@/components/settings/project-general/project-details-section";
 import { ProjectTasksSection } from "@/components/settings/project-general/project-tasks-section";
+import { CopyProjectConfigurationRow } from "@/components/settings/project-general/copy-project-configuration-row";
+import { SettingsCard } from "@/components/settings/settings-card";
+import { SettingsSection } from "@/components/settings/settings-section";
 import { useProjectAutosave } from "@/components/settings/project-general/use-project-autosave";
 import { SettingsPage } from "@/components/settings/settings-page";
 import { useGetTasks } from "@/hooks/queries/task/use-get-tasks";
@@ -59,6 +62,23 @@ export function ProjectGeneralPage() {
             isCurrentProject={isCurrentProject}
             flushPendingSave={flushPendingSave}
           />
+        ) : null}
+        {canEdit && isCurrentProject && project ? (
+          <SettingsSection
+            title={t("settings:projectGeneral.copyConfiguration.section")}
+          >
+            <SettingsCard>
+              <CopyProjectConfigurationRow
+                projectId={projectId}
+                workspaceId={project.workspaceId}
+                hasTasks={
+                  project.columns.some((column) => column.tasks.length > 0) ||
+                  project.archivedTasks.length > 0 ||
+                  project.plannedTasks.length > 0
+                }
+              />
+            </SettingsCard>
+          </SettingsSection>
         ) : null}
         {canDelete ? (
           <ProjectDangerZone

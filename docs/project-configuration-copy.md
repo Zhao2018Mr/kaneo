@@ -24,3 +24,16 @@
 
 本功能基于上游 v2.46.2 开发，运行镜像保留该版本的数据库结构和依赖。
 部署前备份数据库和 Compose 配置；保留原始镜像和上个 Compose 文件，回退时恢复镜像引用并重建应用容器，无需恢复数据库。
+
+构建使用与上游相同的锁文件，未修改运行时依赖。先编译，再在有 Docker 的环境中打包：
+
+```sh
+pnpm install --frozen-lockfile
+pnpm --filter @kaneo/api build
+pnpm --filter @kaneo/web build
+docker build --pull=false -f Dockerfile.custom --build-arg SOURCE_REVISION="$(git rev-parse HEAD)" -t kaneo-custom:2.46.2-copy-config .
+```
+
+`Dockerfile.custom.dockerignore` 将上下文限定为编译结果，不包含 `.env`、数据库或账号信息。镜像沿用上游入口脚本，根据部署环境注入 API 地址。
+
+需要重建所有依赖时，仍可使用上游的 `Dockerfile.kaneo`。
