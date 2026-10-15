@@ -4,7 +4,7 @@ FROM ghcr.io/usekaneo/kaneo:2.46.2
 ARG SOURCE_REVISION=unknown
 LABEL org.opencontainers.image.source="https://github.com/Zhao2018Mr/kaneo" \
       org.opencontainers.image.revision="${SOURCE_REVISION}" \
-      org.opencontainers.image.version="2.46.2-copy-config"
+      org.opencontainers.image.version="2.46.2-copy-config-excel"
 
 USER root
 # Remove previous hashed assets so only the newly built frontend is served.
