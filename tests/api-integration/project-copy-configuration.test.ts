@@ -28,6 +28,7 @@ async function fixture(role = "owner") {
     name: "任务类型",
     type: "dropdown",
     options: ["功能需求", "缺陷"],
+    hiddenOptions: ["缺陷"],
     required: true,
     defaultValue: "功能需求",
     position: 1,
@@ -78,6 +79,7 @@ describe("API integration: copy project configuration", () => {
       required: true,
       defaultValue: "功能需求",
       options: ["功能需求", "缺陷"],
+      hiddenOptions: ["缺陷"],
     });
     const sourceColumns = await db
       .select()

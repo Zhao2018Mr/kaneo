@@ -149,7 +149,13 @@ export default async function copyProjectConfiguration(
       for (const field of sourceFields) {
         const matches = targetFields.filter((f) => f.name === field.name);
         const settings = (f: typeof field) =>
-          JSON.stringify([f.type, f.required, f.defaultValue, f.options]);
+          JSON.stringify([
+            f.type,
+            f.required,
+            f.defaultValue,
+            f.options,
+            f.hiddenOptions,
+          ]);
         if (matches.length) {
           if (
             matches.length !== 1 ||
@@ -176,6 +182,7 @@ export default async function copyProjectConfiguration(
             required: field.required,
             defaultValue: field.defaultValue,
             options: field.options,
+            hiddenOptions: field.hiddenOptions,
             position: ++position,
           })
           .returning();

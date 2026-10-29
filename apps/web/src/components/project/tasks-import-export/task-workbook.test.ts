@@ -37,6 +37,7 @@ function fixture(): SpreadsheetExportData {
         required: false,
         defaultValue: "9",
         options: null,
+        hiddenOptions: [],
         position: i,
         createdAt: timestamp,
         updatedAt: timestamp,

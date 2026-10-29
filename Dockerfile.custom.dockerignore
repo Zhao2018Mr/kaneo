@@ -4,6 +4,8 @@
 !apps/api/
 !apps/api/dist/
 !apps/api/dist/index.js
+!apps/api/drizzle/
+!apps/api/drizzle/**
 !apps/web/
 !apps/web/dist/
 !apps/web/dist/**
