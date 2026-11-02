@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import {
   CircleCheck,
+  ChartGantt,
+  ChartNoAxesCombined,
   House,
   Inbox,
   type LucideIcon,
@@ -49,6 +51,16 @@ export function NavMain() {
 
   const navItems: NavItem[] = [
     { title: t("navigation:sidebar.home"), icon: House, url: homeUrl },
+    {
+      title: t("common:sidebar.gantt"),
+      icon: ChartGantt,
+      url: `${homeUrl}/gantt`,
+    },
+    {
+      title: t("common:sidebar.reports"),
+      icon: ChartNoAxesCombined,
+      url: `${homeUrl}/reports`,
+    },
     {
       title: t("navigation:sidebar.inbox"),
       icon: Inbox,

@@ -79,9 +79,15 @@
 						},
 						"mobileDescription": {
 							"type": "string"
+						},
+						"gantt": {
+							"type": "string"
+						},
+						"reports": {
+							"type": "string"
 						}
 					},
-					"required": ["title", "mobileDescription"]
+					"required": ["title", "mobileDescription", "gantt", "reports"]
 				},
 				"empty": {
 					"type": "object",
@@ -13256,6 +13262,57 @@
 						},
 						"showTaskDates": {
 							"type": "string"
+						},
+						"workspaceTitle": {
+							"type": "string"
+						},
+						"projectFilter": {
+							"type": "string"
+						},
+						"allProjects": {
+							"type": "string"
+						},
+						"scheduledCount": {
+							"type": "string"
+						},
+						"loadError": {
+							"type": "string"
+						},
+						"projectAndTask": {
+							"type": "string"
+						},
+						"assigneeFilter": {
+							"type": "string"
+						},
+						"allAssignees": {
+							"type": "string"
+						},
+						"unassigned": {
+							"type": "string"
+						},
+						"unscheduledTitle": {
+							"type": "string"
+						},
+						"unscheduledCount": {
+							"type": "string"
+						},
+						"dragUnscheduledTask": {
+							"type": "string"
+						},
+						"schedulingHint": {
+							"type": "string"
+						},
+						"taskToSchedule": {
+							"type": "string"
+						},
+						"scheduleDate": {
+							"type": "string"
+						},
+						"scheduleTask": {
+							"type": "string"
+						},
+						"scheduledSuccess": {
+							"type": "string"
 						}
 					},
 					"required": [
@@ -13277,7 +13334,22 @@
 						"previousPeriod",
 						"nextPeriod",
 						"periodStart",
-						"showTaskDates"
+						"showTaskDates",
+						"workspaceTitle",
+						"projectFilter",
+						"allProjects",
+						"loadError",
+						"projectAndTask",
+						"assigneeFilter",
+						"allAssignees",
+						"unassigned",
+						"unscheduledTitle",
+						"dragUnscheduledTask",
+						"schedulingHint",
+						"taskToSchedule",
+						"scheduleDate",
+						"scheduleTask",
+						"scheduledSuccess"
 					]
 				},
 				"delete": {
@@ -13955,6 +14027,118 @@
 						}
 					},
 					"required": ["reorderFailed"]
+				},
+				"reports": {
+					"type": "object",
+					"additionalProperties": false,
+					"properties": {
+						"title": {
+							"type": "string"
+						},
+						"description": {
+							"type": "string"
+						},
+						"projectSummary": {
+							"type": "string"
+						},
+						"tableHint": {
+							"type": "string"
+						},
+						"project": {
+							"type": "string"
+						},
+						"projects": {
+							"type": "string"
+						},
+						"total": {
+							"type": "string"
+						},
+						"archived": {
+							"type": "string"
+						},
+						"details": {
+							"type": "string"
+						},
+						"requirement": {
+							"type": "string"
+						},
+						"status": {
+							"type": "string"
+						},
+						"assignee": {
+							"type": "string"
+						},
+						"unassigned": {
+							"type": "string"
+						},
+						"allProjects": {
+							"type": "string"
+						},
+						"allStatuses": {
+							"type": "string"
+						},
+						"projectFilter": {
+							"type": "string"
+						},
+						"statusFilter": {
+							"type": "string"
+						},
+						"noMatchingTasks": {
+							"type": "string"
+						},
+						"noProjects": {
+							"type": "string"
+						},
+						"loadError": {
+							"type": "string"
+						},
+						"refresh": {
+							"type": "string"
+						},
+						"viewProjectTotal": {
+							"type": "string"
+						},
+						"viewStatus": {
+							"type": "string"
+						},
+						"page": {
+							"type": "string"
+						},
+						"previous": {
+							"type": "string"
+						},
+						"next": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"title",
+						"description",
+						"projectSummary",
+						"tableHint",
+						"project",
+						"projects",
+						"total",
+						"archived",
+						"details",
+						"requirement",
+						"status",
+						"assignee",
+						"unassigned",
+						"allProjects",
+						"allStatuses",
+						"projectFilter",
+						"statusFilter",
+						"noMatchingTasks",
+						"noProjects",
+						"loadError",
+						"refresh",
+						"viewProjectTotal",
+						"viewStatus",
+						"page",
+						"previous",
+						"next"
+					]
 				}
 			},
 			"required": [
@@ -13998,7 +14182,8 @@
 				"descriptionRetry",
 				"descriptionLoading",
 				"descriptionLoadError",
-				"board"
+				"board",
+				"reports"
 			]
 		},
 		"invitations": {

@@ -335,6 +335,20 @@ function RouteComponent() {
             </Button>
 
             <Button
+              variant="ghost"
+              size="xs"
+              className="h-9 touch-manipulation sm:h-auto"
+              onClick={() =>
+                navigate({
+                  to: "/dashboard/workspace/$workspaceId/gantt",
+                  params: { workspaceId },
+                })
+              }
+            >
+              {t("tasks:gantt.allProjects")}
+            </Button>
+
+            <Button
               variant="outline"
               size="xs"
               className="h-9 touch-manipulation sm:hidden"

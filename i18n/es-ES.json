@@ -17,7 +17,9 @@
 		},
 		"sidebar": {
 			"title": "Barra lateral",
-			"mobileDescription": "Muestra la barra lateral."
+			"mobileDescription": "Muestra la barra lateral.",
+			"gantt": "Gantt",
+			"reports": "Reports"
 		},
 		"empty": {
 			"loading": "Cargando..."
@@ -3246,7 +3248,24 @@
 			"previousPeriod": "Previous period",
 			"nextPeriod": "Next period",
 			"periodStart": "Timeline start date",
-			"showTaskDates": "Show task dates"
+			"showTaskDates": "Show task dates",
+			"allProjects": "All projects",
+			"loadError": "Failed to load project tasks",
+			"projectAndTask": "Project / task",
+			"projectFilter": "Filter by project",
+			"scheduledCount": "{{count}} scheduled tasks",
+			"workspaceTitle": "Workspace Gantt",
+			"allAssignees": "All assignees",
+			"assigneeFilter": "Filter by assignee",
+			"dragUnscheduledTask": "Schedule {{title}} on this date",
+			"unassigned": "Unassigned",
+			"unscheduledCount": "{{count}} unscheduled",
+			"unscheduledTitle": "Unscheduled tasks",
+			"schedulingHint": "Drag a task onto a date, or choose a task and date below. New schedules last one day; drag the bar edge to extend.",
+			"taskToSchedule": "Task to schedule",
+			"scheduleDate": "Schedule date",
+			"scheduleTask": "Schedule task",
+			"scheduledSuccess": "Task scheduled"
 		},
 		"delete": {
 			"title": "¿Eliminar tarea?",
@@ -3497,6 +3516,34 @@
 			"startsOn": "Empieza: {{date}}",
 			"beforeStart": "{{date}} es anterior a la fecha de inicio",
 			"afterDue": "{{date}} es posterior a la fecha límite"
+		},
+		"reports": {
+			"title": "Project reports",
+			"description": "Each task counts as one requirement. Totals include active, planned and archived tasks in accessible, non-archived projects. Custom workflow statuses keep their project names; identically named statuses are combined.",
+			"projectSummary": "Requirements by project and status",
+			"tableHint": "Click a number to see the corresponding requirements below.",
+			"project": "Project",
+			"projects": "Projects",
+			"total": "Total requirements",
+			"archived": "Archived requirements",
+			"details": "Requirement details",
+			"requirement": "Requirement",
+			"status": "Status",
+			"assignee": "Assignee",
+			"unassigned": "Unassigned",
+			"allProjects": "All projects",
+			"allStatuses": "All statuses",
+			"projectFilter": "Filter details by project",
+			"statusFilter": "Filter details by status",
+			"noMatchingTasks": "No requirements match these filters.",
+			"noProjects": "No accessible projects to report on.",
+			"loadError": "Some project data could not be loaded. Retry to view a complete report.",
+			"refresh": "Refresh",
+			"viewProjectTotal": "{{project}}: {{count}} requirements, view details",
+			"viewStatus": "{{project}} · {{status}}: {{count}} requirements, view details",
+			"page": "Page {{current}} of {{total}}",
+			"previous": "Previous",
+			"next": "Next"
 		}
 	},
 	"invitations": {
